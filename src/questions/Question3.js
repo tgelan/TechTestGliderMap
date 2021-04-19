@@ -20,6 +20,7 @@ export default function Question3 (props) {
 
 
   const [stops, setStops] = useState([]);
+  const [stopId, setStopId] = useState("")
 
   useEffect(() => {
     fetchStops();
@@ -28,6 +29,7 @@ export default function Question3 (props) {
   const fetchStops = () => {
     fetch(Endpoints.STOPS)
       .then(res => res.json())
+      .then(res=>console.log('...',res))
       .then(newStops => {
         if (newStops.stops.length) {
           setStops(newStops.stops);
@@ -36,10 +38,13 @@ export default function Question3 (props) {
       .catch(e => console.log(e))
   }
 
-  const fetchStopInfo = (stop) => {
-    fetch(Endpoints.STOP_INFO + '/' + stop.id)
+  const fetchStopInfo = (stopId) => {
+    fetch(Endpoints.STOP_INFO + '/' + stopId)
+    // we have to find the stop id by clicking the the map, but here i manually put stop id
       .then(res => res.json())
       .then(stopInfo => {
+        console.log('stop info ...',stopInfo.stop.id)
+        setStopId(stopId)
         //do something
       })
       .catch(e => console.log(e))
@@ -54,6 +59,7 @@ export default function Question3 (props) {
         containerElement={<div style={{ height: `800px`, margin: 20 }} />}
         mapElement={<div style={{ height: `100%` }} />}
       />
+      <button onClick = {fetchStopInfo(stopId)}>Click for single Stop</button>
     </div>
   );
 }

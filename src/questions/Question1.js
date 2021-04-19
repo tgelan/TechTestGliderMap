@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios'
 
-export default function Question1 (props) {
+export default function Question1(props) {
   // Situation: The TestForm component was written by a junior developer who needs some help getting it to function.
   // Please modify the TestForm component such that it will correctly use hooks to validate and post to the endpoint.
   // Feel free to use any (or no) external libraries you feel appropriate.
   // Endpoint docs: https://jsonplaceholder.typicode.com/guide/
 
-  const state = {
-    title: '',
-    body: '',
-    userId: 1337,
-  }
+  // const state = {
+  // title: '',
+  // body: '',
+  // userId: 1337,
+  // }
+  const [state, setState] = React.useState({ title: '', body: '', userId: 1337, })
   const errormessage = '';
 
   useEffect(() => {
@@ -19,20 +21,21 @@ export default function Question1 (props) {
     }
   }, [state.username]);
 
+  const changeHandler = (change, value) => {
+    setState(prev => ({ ...prev, [change]: value }))
+  }
+
   const handleSubmit = () => {
-    fetch('https://jsonplaceholder.typicode.com/posts',{
-      method: 'post',
-      data: JSON.toString({
-        title: state.title,
-        body: state.body,
-        userId: state.UserId
-      }),
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-      },
-    })
-      .then(response => response.json())
-      .then(json => console.log(json))
+    const data = { title: state.title, body: state.body }
+    //setState(prev=>({...prev,title:title,body:body,userId:}))
+
+    axios.post('https://jsonplaceholder.typicode.com/posts', { data })
+      //.then(response => response.json())
+      .then(response => {
+        console.log('.......', response)
+        // setState(prev => ({ ...prev, title: response.data.title,}))
+      })
+
   }
 
   return (
@@ -41,14 +44,22 @@ export default function Question1 (props) {
         <div>
           Title:
         </div>
-        <input name={state.title}/>
+        <input
+          value={state.title}
+          placeholder="Enter Title"
+          onChangeText={value => { changeHandler("Title", value) }}
+          name={state.title} />
       </div>
 
       <div>
         <div>
           Body:
         </div>
-        <input name={state.body}/>
+        <input
+         value={state.body}
+          placeholder="Enter Body"
+          onChangeText={value => { changeHandler("Body", value) }}
+         name={state.body} />
       </div>
 
       <div>
@@ -66,7 +77,7 @@ export default function Question1 (props) {
         {errormessage}
       </div>
 
-      <button onClick={handleSubmit()} style={{margin: 10}}>Submit</button>
+      <button onClick={handleSubmit()} style={{ margin: 10 }}>Submit</button>
     </div>
 
   )
