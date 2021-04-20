@@ -12,10 +12,13 @@ const GliderMap = withScriptjs(withGoogleMap((props) => {
       defaultZoom={8}
       defaultCenter={BELFAST_DEFAULT_LOCATION}
     >
-      <Marker
-        position={BELFAST_DEFAULT_LOCATION}
-        label={'Hi!'}
+     {props.stops.map( (stop)=><Marker
+        position={{'lat':stop.lat,'lng':stop.lng}}
+        label={stop.name}
+        onClick={()=>{props.fetchStopInfo(stop.id)}}
       />
+    
+      )}
     </GoogleMap>
   )
 }))

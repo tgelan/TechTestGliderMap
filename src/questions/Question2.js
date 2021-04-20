@@ -18,8 +18,9 @@ export default function Question2() {
   const [searchText, setSearchText] = useState({ items: shoppingList, searched: "" });
 
   const handleSearchTextChange = (searchString) => {
+    console.log(searchString)
     const searchedItems = shoppingList.filter(item => {
-      return item.toLowerCase().indexOf(searchString.toLocaleLowerCase()) !== -1
+      return item.toLowerCase().includes(searchString.toLowerCase())
     })
     console.log(searchedItems)
     setSearchText(prev => ({ ...prev, items: searchedItems, searched: searchString }))
@@ -27,7 +28,7 @@ export default function Question2() {
 
   return (
     <div>
-      <input placeholder = "Search Here" onChange={text => handleSearchTextChange(text)} />
+      <input placeholder = "Search Here" onChange={text => handleSearchTextChange(text.target.value)} />
       {searchText.items.map(item => {
         return (
           <div>

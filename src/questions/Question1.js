@@ -7,11 +7,7 @@ export default function Question1(props) {
   // Feel free to use any (or no) external libraries you feel appropriate.
   // Endpoint docs: https://jsonplaceholder.typicode.com/guide/
 
-  // const state = {
-  // title: '',
-  // body: '',
-  // userId: 1337,
-  // }
+
   const [state, setState] = React.useState({ title: '', body: '', userId: 1337, })
   const errormessage = '';
 
@@ -27,7 +23,7 @@ export default function Question1(props) {
 
   const handleSubmit = () => {
     const data = { title: state.title, body: state.body }
-    //setState(prev=>({...prev,title:title,body:body,userId:}))
+   
 
     axios.post('https://jsonplaceholder.typicode.com/posts', { data })
       //.then(response => response.json())
@@ -46,8 +42,7 @@ export default function Question1(props) {
         </div>
         <input
           value={state.title}
-          placeholder="Enter Title"
-          onChangeText={value => { changeHandler("Title", value) }}
+          onChange={val => { setState({title:val.target.value}) }}
           name={state.title} />
       </div>
 
@@ -57,8 +52,8 @@ export default function Question1(props) {
         </div>
         <input
          value={state.body}
-          placeholder="Enter Body"
-          onChangeText={value => { changeHandler("Body", value) }}
+         
+          onChange={val => { setState({body:val.target.value}) }}
          name={state.body} />
       </div>
 
@@ -77,7 +72,7 @@ export default function Question1(props) {
         {errormessage}
       </div>
 
-      <button onClick={handleSubmit()} style={{ margin: 10 }}>Submit</button>
+      <button onClick={handleSubmit} style={{ margin: 10 }}>Submit</button>
     </div>
 
   )
